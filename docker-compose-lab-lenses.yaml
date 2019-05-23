@@ -1,0 +1,45 @@
+version: '2'
+services:
+  lenses:
+    image: landoop/lenses:2.1
+    environment:
+      LENSES_PORT: 9991
+      LENSES_KAFKA_BROKERS: "PLAINTEXT://localhost:9092"
+      LENSES_ZOOKEEPER_HOSTS: |
+        [
+          {url:"localhost:2181", jmx:"localhost:9585"}
+        ]
+      LENSES_SCHEMA_REGISTRY_URLS: |
+        [
+          {url:"http://localhost:8081",jmx:"localhost:9582"}
+        ]
+      LENSES_CONNECT_CLUSTERS: |
+        [
+          {
+            name:"data_science",
+            urls: [
+              {url:"http://localhost:8083",jmx:"localhost:9584"}
+            ],
+            statuses:"connect-statuses-cluster-a",
+            configs:"connect-configs-cluster-a",
+            offsets:"connect-offsets-cluster-a"
+          }
+        ]
+      LENSES_SECURITY_MODE: BASIC
+      # Secrets can also be passed as files. Check _examples/
+      LENSES_SECURITY_GROUPS: |
+        [
+          {"name": "adminGroup", "roles": ["admin", "write", "read"]},
+          {"name": "readGroup",  "roles": ["read"]}
+        ]
+      LENSES_SECURITY_USERS: |
+        [
+          {"username": "admin", "password": "admin", "displayname": "Lenses Admin", "groups": ["adminGroup"]},
+          {"username": "read", "password": "read", "displayname": "Read Only", "groups": ["readGroup"]}
+        ]
+    ports:
+      - 9991:9991
+      - 9102:9102
+    volumes:
+      - ./license.json:/license.json
+    network_mode: host

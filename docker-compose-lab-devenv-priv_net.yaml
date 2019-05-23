@@ -1,0 +1,29 @@
+version: '2.3'
+
+services:
+  # this is our kafka fast-data-dev for team01
+  fast-data-dev-01:
+    image: "fgst/minimum2scp-nodejs"
+    ports:
+     - "2222:22"
+    scale: 1
+    networks:
+      devnet: {}
+  fast-data-dev-02:
+    image: "fgst/minimum2scp-nodejs"
+    ports:
+     - "3222:22"  
+    scale: 1
+    networks:
+      devnet: {}
+
+###############################################################
+# Network settings
+###############################################################
+networks:
+  devnet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.0.0/24

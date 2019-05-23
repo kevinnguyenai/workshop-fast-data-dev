@@ -1,0 +1,94 @@
+version: '2.1'
+
+services:
+  # this is our kafka fast-data-dev hackathon environment
+  kafka-cluster:
+    image: landoop/fast-data-dev:cp3.3.0
+    environment:
+      ADV_HOST: 172.16.0.5              # Change to 192.168.99.100 if using Docker Toolbox 
+      RUNTESTS: 1                  # Disable Running tests so the cluster starts faster
+      SAMPLEDATA: 1                # Run sample data flow 
+      ENABLE_SSL: 0                # Disable SSL mode
+      CONNECTORS: mongodb
+      FORWARDLOGS: 0
+      
+    ports:
+      - 2181:2181                 # Zookeeper
+      - 3030:3030                 # Landoop UI
+      - 8081-8083:8081-8083       # REST Proxy, Schema Registry, Kafka Connect ports
+      - 9581-9585:9581-9585       # JMX Ports
+      - 9092:9092                 # Kafka Broker
+    #scale: 1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      devnet:
+        ipv4_address: 172.16.0.5
+
+  # we will use elasticsearch as one of our sinks.
+  # This configuration allows you to start elasticsearch
+  elasticsearch:
+    image: itzg/elasticsearch:2.4.3
+    environment:
+      PLUGINS: appbaseio/dejavu
+      OPTS: -Dindex.number_of_shards=1 -Dindex.number_of_replicas=0
+    ports:
+      - "9200:9200"
+    #scale: 1
+    networks:
+      devnet: {}
+
+  # we will use postgres as one of our sinks.
+  # This configuration allows you to start postgres
+  postgres:
+    image: postgres:9.5-alpine
+    environment:
+      POSTGRES_USER: postgres     # define credentials
+      POSTGRES_PASSWORD: postgres # define credentials
+      POSTGRES_DB: postgres       # define database
+    ports:
+      - "5432:5432"                 # Postgres port
+    #scale: 1
+    networks:
+      devnet: {}
+
+  # we will use mongo as one of our database of application
+  # This configuration allows you to start mongo
+  mongo-express:
+    image: mongo-express
+    depends_on:
+      - mongo
+    ports:
+      - "8000:8000"
+    #scale: 1
+    networks:
+      devnet: {}
+
+  mongo:
+    image: "mongo"
+    ports:
+     - "27017:27017"
+    #scale: 1 
+    networks:
+      devnet: {}
+
+  # we will use redis as one of our application scheduler and catching
+  # This configuration allow you to start redis
+  redis:
+    image: "redis"
+    ports:
+     - "6379:6379"
+    #scale: 1
+    networks:
+      devnet: {}
+
+###############################################################
+# Network settings
+###############################################################
+networks:
+  devnet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.0.0/24
