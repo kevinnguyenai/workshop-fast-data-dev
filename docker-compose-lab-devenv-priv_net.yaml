@@ -11,7 +11,8 @@ services:
      - "33002:3002"
     scale: 1
     networks:
-      devnet: {}
+      devnet:
+        ipv4_address: 172.16.0.2
   fast-data-dev-02:
     image: "fgst/minimum2scp-nodejs"
     ports:
@@ -21,7 +22,8 @@ services:
      - "33012:3002"  
     scale: 1
     networks:
-      devnet: {}
+      devnet:
+        ipv4_address: 172.16.0.3
 
 ###############################################################
 # Network settings

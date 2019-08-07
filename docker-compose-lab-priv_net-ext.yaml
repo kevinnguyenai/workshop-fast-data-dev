@@ -36,7 +36,8 @@ services:
       - "9200:9200"
     #scale: 1
     networks:
-      devnet: {}
+      devnet:
+        ipv4_address: 172.16.0.6
 
   # we will use postgres as one of our sinks.
   # This configuration allows you to start postgres
@@ -50,7 +51,8 @@ services:
       - "5432:5432"                 # Postgres port
     #scale: 1
     networks:
-      devnet: {}
+      devnet:
+        ipv4_address: 172.16.0.5
 
   # we will use mongo as one of our database of application
   # This configuration allows you to start mongo
@@ -62,7 +64,8 @@ services:
       - "8000:8000"
     #scale: 1
     networks:
-      devnet: {}
+      devnet:
+        ipv4_address: 172.16.0.8
 
   mongo:
     image: "mongo"
@@ -70,7 +73,8 @@ services:
      - "27017:27017"
     #scale: 1 
     networks:
-      devnet: {}
+      devnet:
+        ipv4_address: 172.16.0.7
 
   # we will use redis as one of our application scheduler and catching
   # This configuration allow you to start redis
@@ -80,7 +84,8 @@ services:
      - "6379:6379"
     #scale: 1
     networks:
-      devnet: {}
+      devnet:
+        ipv4_address: 172.16.0.4
 
 ###############################################################
 # Network settings

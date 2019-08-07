@@ -16,7 +16,7 @@ you must check for fast-data-dev environments was deployed in first step and che
 ```redis_1```
 putting them into following file ```docker-compose-lab-lenses-host_net.yaml``` and running following
 ```
-	docker-compose -f docker-compose-lab-lenses-priv_net.yaml up -d 
+	docker-compose -f docker-compose-lab-lenses-host_net.yaml up -d 
 	
 ```
 3. start your dev environment
