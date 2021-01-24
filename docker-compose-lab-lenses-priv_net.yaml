@@ -1,24 +1,24 @@
-version: '2.3'
+version: '2.0'
 services:
   lenses:
     image: landoop/lenses:2.1
     environment:
       LENSES_PORT: 9991
-      LENSES_KAFKA_BROKERS: "PLAINTEXT://172.16.0.5:9092"
+      LENSES_KAFKA_BROKERS: "PLAINTEXT://172.16.0.20:9092"
       LENSES_ZOOKEEPER_HOSTS: |
         [
-          {url:"172.16.0.5:2181", jmx:"172.16.0.5:9585"}
+          {url:"172.16.0.20:2181", jmx:"172.16.0.20:9585"}
         ]
       LENSES_SCHEMA_REGISTRY_URLS: |
         [
-          {url:"http://172.16.0.5:8081",jmx:"172.16.0.5:9582"}
+          {url:"http://172.16.0.20:8081",jmx:"172.16.0.20:9582"}
         ]
       LENSES_CONNECT_CLUSTERS: |
         [
           {
             name:"data_science",
             urls: [
-              {url:"http://172.16.0.5:8083",jmx:"172.16.0.5:9584"}
+              {url:"http://172.16.0.20:8083",jmx:"172.16.0.20:9584"}
             ],
             statuses:"connect-statuses-cluster-a",
             configs:"connect-configs-cluster-a",
@@ -43,10 +43,10 @@ services:
     volumes:
       - ./license.json:/license.json
     #network_mode: host
-    scale: 1
+    #scale: 1
     networks:
       devnet:
-        ipv4_address: 172.16.0.8
+        ipv4_address: 172.16.0.21
 
 ###############################################################
 # Network settings

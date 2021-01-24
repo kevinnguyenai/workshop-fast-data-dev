@@ -1,4 +1,4 @@
-version: '2.3'
+version: '2.0'
 
 services:
   # this is our kafka fast-data-dev hackathon environment
@@ -18,7 +18,7 @@ services:
       - 8081-8083:8081-8083       # REST Proxy, Schema Registry, Kafka Connect ports
       - 9581-9585:9581-9585       # JMX Ports
       - 9092:9092                 # Kafka Broker
-    scale: 1
+    #scale: 1
     networks:
       devnet: {}
 
@@ -31,7 +31,7 @@ services:
       OPTS: -Dindex.number_of_shards=1 -Dindex.number_of_replicas=0
     ports:
       - "9200:9200"
-    scale: 1
+    #scale: 1
     networks:
       devnet: {}
 
@@ -45,7 +45,7 @@ services:
       POSTGRES_DB: postgres       # define database
     ports:
       - "5432:5432"                 # Postgres port
-    scale: 1
+    #scale: 1
     networks:
       devnet: {}
 
@@ -57,7 +57,7 @@ services:
       - mongo
     ports:
       - "8000:8000"
-    scale: 1
+    #scale: 1
     networks:
       devnet: {}
 
@@ -65,7 +65,7 @@ services:
     image: "mongo"
     ports:
      - "27017:27017"
-    scale: 1 
+    #scale: 1 
     networks:
       devnet: {}
 
@@ -75,7 +75,7 @@ services:
     image: "redis"
     ports:
      - "6379:6379"
-    scale: 1
+    #scale: 1
     networks:
       devnet: {}
 
