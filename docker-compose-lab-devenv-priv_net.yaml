@@ -1,4 +1,4 @@
-version: '2.3'
+version: '2.0'
 
 services:
   # this is our kafka fast-data-dev for team01
@@ -9,7 +9,7 @@ services:
      - "33000:3000"
      - "33001:3001"
      - "33002:3002"
-    scale: 1
+#    scale: 1
     networks:
       devnet:
         ipv4_address: 172.16.0.2
@@ -20,7 +20,7 @@ services:
      - "33010:3000"
      - "33011:3001"
      - "33012:3002"  
-    scale: 1
+#    scale: 1
     networks:
       devnet:
         ipv4_address: 172.16.0.3
